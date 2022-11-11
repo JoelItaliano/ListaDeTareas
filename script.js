@@ -6,22 +6,39 @@ const createTask = (evento) => {
     const input = document.querySelector('[data-form-input]');
     const list = document.querySelector('[data-list]')
     const task = document.createElement('li');
+    const div = document.createElement('div');
+    const span = document.createElement('span');
+
+    task.classList.add('card');    
+
+    span.classList.add('task');
+    span.innerText = input.value;
+
+    div.appendChild(checkComplete());
+    div.appendChild(span)
          
-    task.classList.add('card');
+    
+    list.appendChild(task)
+    task.appendChild(div);
 
-    const contenido = agregaHTML(input.value);
     input.value = '';
-
-    task.innerHTML = contenido; //agrega contenido a html
-    list.appendChild(task) 
+    
 }
+
 
 btnAgregar.addEventListener('click', createTask);
 
-function agregaHTML(valor) {
-   return `<div>
-    <i class="far fa-check-square icon"></i>
-    <span class="task">${valor}</span>
-    </div>
-    <i class="fas fa-trash-alt trashIcon icon"></i>`
-}
+const checkComplete = () => {
+    const firstI = document.createElement('i');
+    firstI.classList.add('far', 'fa-check-square', 'icon');
+    firstI.addEventListener('click', completeTask);
+    return firstI;
+  };
+
+  // Immediately invoked function expression IIFE
+  const completeTask = (event) => {
+    const element = event.target;
+    element.classList.toggle('fas');
+    element.classList.toggle('completeIcon');
+    element.classList.toggle('far');
+  };
